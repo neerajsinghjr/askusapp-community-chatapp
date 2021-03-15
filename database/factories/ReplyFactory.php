@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Reply;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReplyFactory extends Factory
@@ -21,8 +22,13 @@ class ReplyFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->sentence;
+
         return [
-            //
+            'question_id' => Question::all()->id->random(),
+            'description' => $this->faker->paragraphs($nb=3),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

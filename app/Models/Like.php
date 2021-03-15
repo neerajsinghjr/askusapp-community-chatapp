@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
-}
+
+    protected $table = 'replies';
+
+    protected $guarded = [];
+
+    /**
+     * @return User;
+     */
+    
+
+}   // End of Likes;

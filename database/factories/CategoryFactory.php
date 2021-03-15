@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CategoryFactory extends Factory
 {
@@ -20,9 +21,14 @@ class CategoryFactory extends Factory
      * @return array
      */
     public function definition()
-    {
+    {   
+        $name = $this->faker->sentence;
+        
         return [
-            //
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

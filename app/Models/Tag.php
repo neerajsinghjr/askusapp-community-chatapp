@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
-}
+
+    protected $guarded = [];
+    
+    protected $table = "tags";
+
+    /**
+     * @return Questions;
+     */
+    function questions() {
+        $this->belongsTo(Question::class);
+    }
+
+}   // End of Tag;
