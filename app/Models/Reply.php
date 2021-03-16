@@ -20,4 +20,11 @@ class Reply extends Model
         return $this->belongsTo(Question::class);
     }
 
+    /**
+     * @return Like;
+     */
+    function likes() {
+        return $this->hasMany(Like::class, 'reply_id');
+    }
+
 }   // End of Reply;

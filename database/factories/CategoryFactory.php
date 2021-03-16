@@ -22,11 +22,13 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {   
-        $name = $this->faker->sentence;
-        
+        $title = $this->faker->sentence;
         return [
-            'name' => $name,
-            'slug' => Str::slug($name),
+            'user_id' => function() {
+                return \App\Models\User::all()->random();
+            },
+            'title' => $title,
+            'slug' => Str::slug($title),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -22,11 +22,14 @@ class TagFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->name;
+        $title = $this->faker->title;
         
         return [
-            'name' => $name,
-            'slug' => Str::slug($name),
+            'user_id' => function() {
+                return rand(1, 10);
+            },
+            'title' => $title,
+            'slug' => Str::slug($title),
             'created_at' => now(),
             'updated_at' => now(),
         ];

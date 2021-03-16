@@ -62,5 +62,12 @@ class User extends Authenticatable
     function tags() {
         return $this->hasMany(Tag::class);
     }
+    
+    /**
+     * @return Likes;
+     */
+    public function likes() {
+        return $this->hasMany(Like::class, 'user_id');
+    }
 
 }   // End of User;

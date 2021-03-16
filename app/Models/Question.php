@@ -17,7 +17,7 @@ class Question extends Model
      * @return Categories;
      */
     function category() {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     /**
@@ -31,7 +31,14 @@ class Question extends Model
      * @return Replies;
      */
     function replies() {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class, 'question_id');
+    }
+
+    /**
+     * @return Likes
+     */
+    function likes() {
+        return $this->hasMany(Like::class, 'question_id');
     }
 
 }   // End Of Question;

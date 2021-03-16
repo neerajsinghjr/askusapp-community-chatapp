@@ -17,9 +17,10 @@ class CreateRepliesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('question_id')->index();
             $table->longText('description');
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->softDeletesTz();
             $table->timestamps();
+            // Foreign Relation
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 
