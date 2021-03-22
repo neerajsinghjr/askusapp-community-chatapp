@@ -14,15 +14,19 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
+
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('slug');
             $table->softDeletesTz();
-            $table->timestamps();
-            // Foreign Relation;
-            $table->foreign('user_id')->references('id')->on('users')->onDelete("set null");
+            $table->timestamps();   
 
+            // Foreign Relation;
+            $table->foreignId('user_id')
+                    ->nullable()
+                    ->constrained('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
         });
     }
 

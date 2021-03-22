@@ -16,17 +16,27 @@ class CreateQuestionTagTable extends Migration
         Schema::create('question_tag', function (Blueprint $table) {
 
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger("category_id");
-            $table->string('title');
-            $table->string('slug');
-            $table->longText('description');
             $table->softDeletesTz();
             $table->timestamps();
 
             // Foreign Relations;
-            $table->foreign("user_id")->references('id')->on('users')->onDelete('cascade');
-            $table->foreign("category_id")->references('id')->on('categories')->onDelete("set null");
+            $table->foreignId('user_id')
+                    ->nullable()
+                    ->constrained('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            $table->foreignId("question_id")
+                    ->nullable()
+                    ->constrained('questions')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            $table->foreignId("tag_id")
+                    ->nullable()
+                    ->constrained('tags')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
         });
     }
 

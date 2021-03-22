@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reply extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = [];
 
@@ -17,14 +19,20 @@ class Reply extends Model
      * @return Question;
      */
     function question() {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'question_id');
     }
 
     /**
      * @return Like;
      */
-    function likes() {
-        return $this->hasMany(Like::class, 'reply_id');
+    public function likes() {
+        return $this->morphToMany(Like::class, 'likeable');
+    }
+
+    public function getIsLikedAttribute() {
+        $uid = Auth::id();
+        $like = $this->likes()->where('user_id', $uid)->first();
+        return ($like ? False : True);
     }
 
 }   // End of Reply;

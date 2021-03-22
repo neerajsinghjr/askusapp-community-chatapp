@@ -13,18 +13,27 @@ class CreateQuestionsTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
+
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger("category_id");
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('slug');
             $table->longText('description');
             $table->softDeletesTz();
             $table->timestamps();
 
             // Foreign Relations;
-            $table->foreign("user_id")->references('id')->on('users')->onDelete('cascade');
-            $table->foreign("category_id")->references('id')->on('categories')->onDelete("set null");
+            $table->foreignId('user_id')
+                    ->nullable()
+                    ->constrained('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+                    
+            $table->foreignId('category_id')
+                    ->nullable()
+                    ->constrained('categories')
+                    ->onUpdate('cascade')
+                    ->onDelete('set null');
+
         });
     }
 

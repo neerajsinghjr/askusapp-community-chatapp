@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Question extends Model
 {
-    use HasFactory;
-
+    use HasFactory, SoftDeletes;
+    
     protected $guarded = [];
 
     protected $table = 'questions';
+
+    protected $appends = ['is_liked'];
 
     /**
      * @return Categories;
@@ -35,10 +39,20 @@ class Question extends Model
     }
 
     /**
-     * @return Likes
+     * @return Like;
      */
-    function likes() {
-        return $this->hasMany(Like::class, 'question_id');
+    public function likes() {
+        return $this->morphToMany(Like::class, 'likeable');
+    }
+
+    /**
+     * @return Append: isLiked;
+     */
+    public function getIsLikedAttribute() {
+        $uid = Auth::id();
+        $like = $this->likes()->whereUserID('user_id', $uid)->first();
+        return ($like ? False : True);
+
     }
 
 }   // End Of Question;

@@ -2,36 +2,38 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Like extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'replies';
 
     protected $guarded = [];
 
     /**
-     * @return User;
+     * @return Question;
      */
     public function questions() {
-        return $this->belongsToMany(Question::class, 'question_id');
+        return $this->morphedByMany(Question::class, 'likeable');
+    }
+    
+    /**
+     * @return Reply;
+     */
+    public function replies() {
+        return $this->morphedByMany(Reply::class, 'likeable');
     }
 
     /** 
      * @return User;
      */
     public function users() {
-        return $this->belongsToMany(User::class, 'user_id');
+        return $this->hasMany(User::class, 'user_id');
     }
 
-    /**
-     * @return Reply;
-     */
-    public function replies() {
-        return $this->belongsToMany(Reply::class, 'reply_id');
-    }
 
 }   // End of Likes;

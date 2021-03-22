@@ -14,13 +14,25 @@ class CreateRepliesTable extends Migration
     public function up()
     {
         Schema::create('replies', function (Blueprint $table) {
+
             $table->id();
-            $table->unsignedBigInteger('question_id')->index();
             $table->longText('description');
             $table->softDeletesTz();
             $table->timestamps();
+
             // Foreign Relation
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreignId('user_id')
+                    ->nullable()
+                    ->constrained('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            $table->foreignId('question_id')
+                    ->nullable()
+                    ->constrained('questions')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
         });
     }
 
