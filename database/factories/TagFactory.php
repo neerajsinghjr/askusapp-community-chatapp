@@ -22,11 +22,10 @@ class TagFactory extends Factory
      */
     public function definition()
     {
-        $title = $this->faker->title;
-        
+        $title = $this->faker->unique()->word;
         return [
             'user_id' => function() {
-                return rand(1, 10);
+                return \App\Models\User::all()->pluck('id')->random();
             },
             'title' => $title,
             'slug' => Str::slug($title),

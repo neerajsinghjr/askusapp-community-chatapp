@@ -21,12 +21,14 @@ class CategoryFactory extends Factory
      * @return array
      */
     public function definition()
+    
     {   
-        $title = $this->faker->sentence;
+        $temp = \App\Models\User::all()->pluck('id')->random();
+        dd($temp);
+
+        $title = $this->faker->unique()->word;
         return [
-            'user_id' => function() {
-                return \App\Models\User::all()->random();
-            },
+            'user_id' => \App\Models\User::all()->pluck('id')->random(),
             'title' => $title,
             'slug' => Str::slug($title),
             'created_at' => now(),
